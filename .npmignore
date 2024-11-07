@@ -7,3 +7,4 @@
 .tags
 .travis.yml
 appveyor.yml
+.package-lock.json

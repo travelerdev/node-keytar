@@ -24,11 +24,19 @@
   ],
   "scripts": {
     "install": "node-gyp-build",
-    "prebuild": "prebuildify --napi --all",
+    "prebuild": "prebuildify --napi",
     "build": "rollup -c",
     "lint": "npm run cpplint",
     "cpplint": "node-cpplint --filters legal-copyright,build-include,build-namespaces src/native/*.cc",
-    "test": "npm run lint && npm rebuild && npm run ts-compile && mocha spec/"
+    "test": "npm run lint && npm run build && mocha spec/",
+    "prepublishOnly": "npm run prebuild-all",
+    "prebuild-all": "npm run prebuild-linux-arm && npm run prebuild-linux-x64 && npm run prebuild-linux-x86 && npm run prebuild-darwin-x64+arm64 && npm run prebuild-win32-x86 && npm run prebuild-win32-x64",
+    "prebuild-linux-arm": "prebuildify --napi --strip --platform=linux --arch arm64",
+    "prebuild-linux-x86": "prebuildify --napi --strip --platform=linux --arch x86",
+    "prebuild-linux-x64": "prebuildify --napi --strip --platform=linux --arch x64",
+    "prebuild-darwin-x64+arm64": "prebuildify --napi --strip --arch x64+arm64 --platform=darwin",
+    "prebuild-win32-x86": "prebuildify --napi --strip --platform=win32 --arch x86",
+    "prebuild-win32-x64": "prebuildify --napi --strip --platform=win32 --arch x64"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
@@ -39,7 +47,6 @@
     "chai": "^5.1.2",
     "mocha": "^10.8.2",
     "node-cpplint": "~0.4.0",
-    "node-gyp-build": "^4.8.2",
     "prebuildify": "^6.0.1",
     "rollup": "^4.24.4",
     "rollup-plugin-dts": "^6.1.1",
@@ -50,5 +57,9 @@
   "dependencies": {
     "node-addon-api": "^8.2.1",
     "node-gyp-build": "^4.8.2"
+  },
+  "gypfile": true,
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

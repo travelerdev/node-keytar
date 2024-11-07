@@ -1,5 +1,5 @@
 {
-   "variables": {
+  "variables": {
     'openssl_fips': ''
   },
   'targets': [
@@ -15,6 +15,8 @@
       'cflags_cc!': [ '-fno-exceptions' ],
       'xcode_settings': {
         'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
+        'cflags+': ['-fvisibility=hidden'],
+        'GCC_SYMBOLS_PRIVATE_EXTERN': 'YES', # -fvisibility=hidden
         'CLANG_CXX_LIBRARY': 'libc++',
         'MACOSX_DEPLOYMENT_TARGET': '10.7',
         'OTHER_CFLAGS': [

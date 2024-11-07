@@ -28,11 +28,13 @@ export default defineConfig(
         sourcemap: true,
       },
     ],
-    external: ["build", "prebuild"],
+    external: ["build", "prebuilds"],
     plugins: [
       external({ includeDependencies: true }),
       resolve(),
-      commonjs(),
+      commonjs({
+        ignoreDynamicRequires: true,
+      }),
       typescript({
         tsconfig: "./tsconfig.json",
         typescript: typescriptEngine,
