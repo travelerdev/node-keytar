@@ -1,5 +1,6 @@
 {
   "main": "index.js",
+  "type": "module",
   "module": "index.mjs",
   "name": "keytar",
   "description": "Bindings to native Mac/Linux/Windows password APIs",
@@ -23,18 +24,18 @@
   ],
   "scripts": {
     "install": "node-gyp-build",
-    "prebuild": "prebuildify --napi",
-    "compile": "prebuildify --napi && rollup -c",
-    "ts-compile": "rollup -c",
+    "prebuild": "prebuildify --napi --all",
+    "build": "rollup -c",
     "lint": "npm run cpplint",
     "cpplint": "node-cpplint --filters legal-copyright,build-include,build-namespaces src/native/*.cc",
-    "test": "npm run lint && npm rebuild && mocha --require babel-core/register spec/"
+    "test": "npm run lint && npm rebuild && npm run ts-compile && mocha spec/"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.1",
+    "@types/node": "^22.9.0",
     "chai": "^5.1.2",
     "mocha": "^10.8.2",
     "node-cpplint": "~0.4.0",

@@ -1,5 +1,14 @@
 // @ts-ignore
-const keytar = require('node-gyp-build')(__dirname)
+import buildTools from "node-gyp-build";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Synthetically generate the __dirname for `mjs` cross support.
+// Also gets the `../` of the dirname to get to the root of the project.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(path.dirname(__filename));
+
+const keytar = buildTools(__dirname)
 
 function checkRequired(val: string, name: string) {
   if (!val || val.length <= 0) {
