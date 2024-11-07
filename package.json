@@ -1,18 +1,17 @@
 {
-  "main": "./lib/keytar.js",
-  "typings": "keytar.d.ts",
+  "main": "index.js",
+  "module": "index.mjs",
   "name": "keytar",
   "description": "Bindings to native Mac/Linux/Windows password APIs",
-  "version": "7.9.0",
+  "version": "8.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom/node-keytar.git"
+    "url": "https://github.com/travelerdev/node-keytar.git"
   },
   "bugs": {
-    "url": "https://github.com/atom/node-keytar/issues"
+    "url": "https://github.com/travelerdev/node-keytar/issues"
   },
-  "homepage": "http://atom.github.io/node-keytar",
   "keywords": [
     "keychain",
     "password",
@@ -22,45 +21,33 @@
     "vault",
     "credential vault"
   ],
-  "files": [
-    "lib",
-    "src",
-    "binding.gyp",
-    "keytar.d.ts"
-  ],
-  "types": "./keytar.d.ts",
   "scripts": {
-    "install": "prebuild-install || npm run build",
-    "build": "node-gyp rebuild",
+    "install": "node-gyp-build",
+    "prebuild": "prebuildify --napi",
+    "compile": "prebuildify --napi && rollup -c",
+    "ts-compile": "rollup -c",
     "lint": "npm run cpplint",
-    "cpplint": "node-cpplint --filters legal-copyright,build-include,build-namespaces src/*.cc",
-    "test": "npm run lint && npm rebuild && mocha --require babel-core/register spec/",
-    "prebuild-napi-x64": "prebuild -t 3 -r napi -a x64 --strip",
-    "prebuild-napi-ia32": "prebuild -t 3 -r napi -a ia32 --strip",
-    "prebuild-napi-arm64": "prebuild -t 3 -r napi -a arm64 --strip",
-    "prebuild-napi-armv7l": "prebuild -t 3 -r napi -a armv7l --strip",
-    "upload": "node ./script/upload.js"
+    "cpplint": "node-cpplint --filters legal-copyright,build-include,build-namespaces src/native/*.cc",
+    "test": "npm run lint && npm rebuild && mocha --require babel-core/register spec/"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "chai": "^4.2.0",
-    "mocha": "^9.2.0",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "chai": "^5.1.2",
+    "mocha": "^10.8.2",
     "node-cpplint": "~0.4.0",
-    "node-gyp": "^8.4.1",
-    "prebuild": "^11.0.2"
+    "node-gyp-build": "^4.8.2",
+    "prebuildify": "^6.0.1",
+    "rollup": "^4.24.4",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.3"
   },
   "dependencies": {
-    "node-addon-api": "^4.3.0",
-    "prebuild-install": "^7.0.1"
-  },
-  "binary": {
-    "napi_versions": [
-      3
-    ]
-  },
-  "config": {
-    "runtime": "napi",
-    "target": 3
+    "node-addon-api": "^8.2.1",
+    "node-gyp-build": "^4.8.2"
   }
 }

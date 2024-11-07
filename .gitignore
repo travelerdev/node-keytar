@@ -1,6 +1,7 @@
 /node_modules
 /prebuilds
 /build
+/dist
 *.log
 *~
 .tags

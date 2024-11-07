@@ -2,14 +2,22 @@
   'targets': [
     {
       'target_name': 'keytar',
+      'dependencies': [
+        "<!(node -p \"require('node-addon-api').targets\"):node_addon_api",
+      ],
       'defines': [
         "NAPI_VERSION=<(napi_build_version)",
       ],
       'cflags!': [ '-fno-exceptions' ],
       'cflags_cc!': [ '-fno-exceptions' ],
-      'xcode_settings': { 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
+      'xcode_settings': {
+        'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
         'CLANG_CXX_LIBRARY': 'libc++',
         'MACOSX_DEPLOYMENT_TARGET': '10.7',
+        'OTHER_CFLAGS': [
+          "-std=c++17",
+          "-stdlib=libc++"
+        ],
       },
       'msvs_settings': {
         'VCCLCompilerTool': {
@@ -27,15 +35,15 @@
       },
       'include_dirs': ["<!(node -p \"require('node-addon-api').include_dir\")"],
       'sources': [
-        'src/async.cc',
-        'src/main.cc',
-        'src/keytar.h',
-        'src/credentials.h',
+        'src/native/async.cc',
+        'src/native/main.cc',
+        'src/native/keytar.h',
+        'src/native/credentials.h',
       ],
       'conditions': [
         ['OS=="mac"', {
           'sources': [
-            'src/keytar_mac.cc',
+            'src/native/keytar_mac.cc',
           ],
           'link_settings': {
             'libraries': [
@@ -45,7 +53,7 @@
         }],
         ['OS=="win"', {
           'sources': [
-            'src/keytar_win.cc',
+            'src/native/keytar_win.cc',
           ],
           'msvs_disabled_warnings': [
             4267,  # conversion from 'size_t' to 'int', possible loss of data
@@ -55,7 +63,7 @@
         }],
         ['OS not in ["mac", "win"]', {
           'sources': [
-            'src/keytar_posix.cc',
+            'src/native/keytar_posix.cc',
           ],
           'cflags': [
             '<!(pkg-config --cflags libsecret-1)',
