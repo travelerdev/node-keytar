@@ -2,7 +2,7 @@
   "main": "index.js",
   "type": "module",
   "module": "index.mjs",
-  "name": "keytar",
+  "name": "@travelerdev/keytar",
   "description": "Bindings to native Mac/Linux/Windows password APIs",
   "version": "8.0.0",
   "license": "MIT",
